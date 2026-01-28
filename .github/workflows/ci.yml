@@ -27,18 +27,16 @@ jobs:
 
   deploy:
     needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-    steps:
-    - name: Deploy to server
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          cd /opt/projects/telegram-music-bot
-          git fetch origin
-          git reset --hard origin/master
-          docker compose down
-          docker compose up --build -d
+  runs-on: ubuntu-latest
+  steps:
+  - name: Deploy to server
+    uses: appleboy/ssh-action@v0.1.5
+    with:
+      host: ${{ secrets.HOST }}
+      username: ${{ secrets.USERNAME }}
+      key: ${{ secrets.SSH_KEY }}
+      script: |
+        cd /opt/projects/telegram-music-bot
+        git pull origin master
+        docker-compose down
+        docker-compose up --build -d
