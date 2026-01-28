@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  telegram-music-bot:
+    container_name: telegram-music-bot
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+    volumes:
+      - ./temp:/app/temp
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

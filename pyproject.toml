@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "telegram-music-bot"
+version = "0.1.0"
+description = "Telegram bot for separating music tracks into stems using Demucs"
+authors = ["nike4192@outlook.com"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiogram = "^3.2.0"
+demucs = "^4.0.1"
+torch = ">=2.0.0"
+torchaudio = ">=2.0.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+flake8 = "^6.1.0"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "asyncio: marks tests as async"
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
