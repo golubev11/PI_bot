@@ -7,7 +7,7 @@ from src.bot import MusicStemsBot
 
 @pytest.fixture(scope="module")
 def mock_bot():
-    with patch("your_package.bot.Bot") as mock_bot_class: 
+    with patch("src.bot.Bot") as mock_bot_class: 
         instance = AsyncMock()
         instance.get_file = AsyncMock()
         instance.download_file = AsyncMock()
@@ -17,7 +17,7 @@ def mock_bot():
 
 @pytest.fixture
 def bot_instance(mock_bot):
-    with patch("your_package.bot.AudioProcessor"):
+    with patch("src.bot.AudioProcessor"):
         yield MusicStemsBot()
 
 @pytest.mark.asyncio
@@ -60,7 +60,7 @@ async def test_audio_handler_success(bot_instance, tmp_path):
     for p in fake_paths.values():
         open(p, "wb").close()
 
-    with patch("your_package.bot.AudioProcessor") as AP:  # путь к классу в модуле с ботом
+    with patch("src.bot.AudioProcessor") as AP:  # путь к классу в модуле с ботом
         ap_instance = AP.return_value
         ap_instance.separate_stems = AsyncMock(return_value=fake_paths)
         ap_instance.cleanup_temp_files = MagicMock()
@@ -104,7 +104,7 @@ async def test_audio_handler_error(bot_instance):
 
     bot_instance.bot.get_file = AsyncMock(side_effect=RuntimeError("download error"))
 
-    with patch("your_package.bot.AudioProcessor") as AP:
+    with patch("src.bot.AudioProcessor") as AP:
         ap_instance = AP.return_value
         ap_instance.separate_stems = AsyncMock()
         ap_instance.cleanup_temp_files = MagicMock()
