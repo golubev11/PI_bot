@@ -92,7 +92,7 @@ class TestAudioProcessor:
     @patch('os.path.exists')
     @patch('os.remove')
     @patch('shutil.rmtree')
-    def test_cleanup_temp_files(self):
+    def test_cleanup_temp_files(self, mock_rmtree, mock_remove, mock_exists):
         if os.path.exists(self.temp_dir):
             shutil.rmtree(self.temp_dir)
             self.temp_files.clear()
@@ -137,8 +137,6 @@ class TestAudioProcessor:
             audio_processor.__del__()
             mock_cleanup.assert_called_once()
 
-
-# Интеграционный тест (требует реального аудиофайла)
 class TestAudioProcessorIntegration:
 
     @pytest.mark.slow
