@@ -5,16 +5,20 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from src.bot import MusicStemsBot
 
 
-@pytest.fixture(autouse=True)
-def fake_token_env(monkeypatch):
-    """Подставляем фиктивный токен, чтобы Bot успешно создался."""
-    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "TEST_TOKEN")
-
+@pytest.fixture(scope="module")
+def mock_bot():
+    with patch("your_package.bot.Bot") as mock_bot_class: 
+        instance = AsyncMock()
+        instance.get_file = AsyncMock()
+        instance.download_file = AsyncMock()
+        instance.set_webhook = AsyncMock()
+        mock_bot_class.return_value = instance
+        yield instance
 
 @pytest.fixture
-def bot_instance():
-    return MusicStemsBot()
-
+def bot_instance(mock_bot):
+    with patch("your_package.bot.AudioProcessor"):
+        yield MusicStemsBot()
 
 @pytest.mark.asyncio
 async def test_start_handler(bot_instance):
