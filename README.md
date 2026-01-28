@@ -28,7 +28,6 @@ telegram-music-bot/
 │   └── utils.py           # Вспомогательные функции
 ├── tests/
 │   ├── __init__.py
-│   ├── test_bot.py
 │   └── test_audio_processor.py
 ├── docker/
 │   └── Dockerfile
