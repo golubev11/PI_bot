@@ -93,9 +93,18 @@ class TestAudioProcessor:
     @patch('os.remove')
     @patch('shutil.rmtree')
     def test_cleanup_temp_files(self, mock_rmtree, mock_remove, mock_exists):
-        if os.path.exists(self.temp_dir):
-            shutil.rmtree(self.temp_dir)
-            self.temp_files.clear()
+
+        processor = AudioProcessor()
+        processor.temp_files = ['file1.mp3', 'file2.mp3']
+        processor.temp_dir = "/fake/temp_dir"
+        
+        mock_exists.return_value = True
+        
+        processor.cleanup_temp_files()
+        
+        assert len(processor.temp_files) == 0
+        mock_rmtree.assert_called_once_with("/fake/temp_dir")
+        mock_remove.assert_not_called()
 
     @patch('os.path.exists')
     @patch('os.remove')
